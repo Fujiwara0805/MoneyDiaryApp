@@ -53,7 +53,11 @@ export const SideBar = ({
       <List>
         {menuItems.map((item, index) => (
           <ListItem key={index} disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                router.push(item.path);
+              }}
+            >
               <ListItemIcon>
                 {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                 <item.icon />

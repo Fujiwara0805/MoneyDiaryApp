@@ -11,7 +11,7 @@ export default function Home() {
       <AppLayout />
       <Box className="flex ">
         {/*左側コンテンツ*/}
-        <Box className=" flex-grow ">
+        <Box className=" flex-grow text-center ">
           <MonthlySummary />
           <Calendar />
         </Box>

@@ -97,7 +97,13 @@ export const SideBar = ({
           {drawer}
         </Drawer>
         <Drawer
-          variant="permanent"
+          variant="temporary"
+          open={mobileOpen}
+          onTransitionEnd={handleDrawerTransitionEnd}
+          onClose={handleDrawerClose}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
           sx={{
             display: { xs: "none", sm: "block" },
             "& .MuiDrawer-paper": {
@@ -105,7 +111,6 @@ export const SideBar = ({
               width: drawerWidth,
             },
           }}
-          open
         >
           {drawer}
         </Drawer>

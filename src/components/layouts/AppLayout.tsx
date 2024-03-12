@@ -7,7 +7,6 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Link from "next/link";
 import { SideBar } from "../common/SideBar";
 
 const drawerWidth = 240;
@@ -35,8 +34,6 @@ export default function AppLayout() {
     <Box
       sx={{
         display: "flex",
-        bgcolor: (theme) => theme.palette.grey[100],
-        minHeight: "100vh",
       }}
     >
       <CssBaseline />
@@ -59,7 +56,7 @@ export default function AppLayout() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            TypeScript ✖️ React 家計簿アプリ
           </Typography>
         </Toolbar>
       </AppBar>
@@ -80,8 +77,6 @@ export default function AppLayout() {
         }}
       >
         <Toolbar />
-        <div>HOME</div>
-        <Link href={"/report"}>Report</Link>
       </Box>
     </Box>
   );

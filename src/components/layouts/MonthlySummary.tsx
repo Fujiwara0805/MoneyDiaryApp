@@ -6,10 +6,17 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 
 const MonthlySummary = () => {
   return (
-    <Grid container spacing={{ xs: 1, sm: 2 }} mb={2}>
+    <Grid container spacing={{ xs: 1, sm: 2 }} mb={2} className=" px-2">
       {/* 収入 */}
-      <Grid item xs={4} display={"flex"}>
-        <Card sx={{ bgcolor: "blue", color: "white", borderRadius: "10px" }}>
+      <Grid item xs={4} display={"flex"} flexDirection={"column"}>
+        <Card
+          sx={{
+            bgcolor: "blue",
+            color: "white",
+            borderRadius: "10px",
+            flexGrow: 1,
+          }}
+        >
           <CardContent sx={{ padding: { xs: 1, sm: 2 } }}>
             <Stack direction={"row"}>
               <ArrowUpwardIcon sx={{ fontSize: "2rem" }} />
@@ -31,8 +38,15 @@ const MonthlySummary = () => {
       </Grid>
 
       {/* 支出 */}
-      <Grid item xs={4} display={"flex"}>
-        <Card sx={{ bgcolor: "red", color: "white", borderRadius: "10px" }}>
+      <Grid item xs={4} display={"flex"} flexDirection={"column"}>
+        <Card
+          sx={{
+            bgcolor: "red",
+            color: "white",
+            borderRadius: "10px",
+            flexGrow: 1,
+          }}
+        >
           <CardContent sx={{ padding: { xs: 1, sm: 2 } }}>
             <Stack direction={"row"}>
               <ArrowDownwardIcon sx={{ fontSize: "2rem" }} />
@@ -54,8 +68,15 @@ const MonthlySummary = () => {
       </Grid>
 
       {/* 残高 */}
-      <Grid item xs={4} display={"flex"}>
-        <Card sx={{ bgcolor: "green", color: "white", borderRadius: "10px" }}>
+      <Grid item xs={4} display={"flex"} flexDirection={"column"}>
+        <Card
+          sx={{
+            bgcolor: "green",
+            color: "white",
+            borderRadius: "10px",
+            flexGrow: 1,
+          }}
+        >
           <CardContent sx={{ padding: { xs: 1, sm: 2 } }}>
             <Stack direction={"row"}>
               <AccountBalanceIcon sx={{ fontSize: "2rem" }} />

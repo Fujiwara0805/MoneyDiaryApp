@@ -4,6 +4,7 @@ import { Transaction } from "@/types/type";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/db/firebase";
 import Home from "./home/page";
+import Report from "./report/page";
 
 export default function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -31,6 +32,7 @@ export default function App() {
   return (
     <main className=" bg-slate-300 min-h-screen">
       <Home />
+      <Report />
     </main>
   );
 }

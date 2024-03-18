@@ -5,9 +5,11 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/db/firebase";
 import Home from "./home/page";
 import Report from "./report/page";
+import { formatMonth } from "@/utils/formatting";
 
 export default function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   /* firebaseからデータ抽出 */
   useEffect(() => {
@@ -21,13 +23,17 @@ export default function App() {
           } as Transaction;
         });
         setTransactions(transactionData);
-        console.log(transactionData);
       } catch (error) {
         console.log("データベース接続に失敗しました", error);
       }
     };
     fetchTransactions();
   }, []);
+
+  /* 各月のデータを抽出 */
+  const MonthlyTransactions = transactions.filter((transaction) => {
+    return transaction.date.startsWith(formatMonth(currentMonth));
+  });
 
   return (
     <main className=" bg-slate-300 min-h-screen">

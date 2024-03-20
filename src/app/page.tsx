@@ -24,7 +24,7 @@ export default function App() {
         });
         setTransactions(transactionData);
       } catch (error) {
-        console.log("データベース接続に失敗しました", error);
+        console.error("データベース接続に失敗しました");
       }
     };
     fetchTransactions();
@@ -37,7 +37,7 @@ export default function App() {
 
   return (
     <main className=" bg-slate-300 min-h-screen">
-      <Home />
+      <Home monthlyTransactions={MonthlyTransactions} />
       <Report />
     </main>
   );

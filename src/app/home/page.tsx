@@ -4,15 +4,20 @@ import MonthlySummary from "@/components/layouts/MonthlySummary";
 import Calendar from "@/components/layouts/Calendar";
 import TransactionMenu from "@/components/layouts/TransactionMenu";
 import TransactionForm from "@/components/layouts/TransactionForm";
+import { Transaction } from "@/types/type";
 
-export default function Home() {
+interface HomeProps {
+  monthlyTransactions: Transaction[];
+}
+
+const Home = ({ monthlyTransactions }: HomeProps) => {
   return (
     <main className=" bg-slate-300 min-h-screen">
       <AppLayout />
       <Box className="flex ">
         {/*左側コンテンツ*/}
         <Box className=" flex-grow text-center ">
-          <MonthlySummary />
+          <MonthlySummary monthlyTransactions={monthlyTransactions} />
           <Calendar />
         </Box>
 
@@ -24,4 +29,6 @@ export default function Home() {
       </Box>
     </main>
   );
-}
+};
+
+export default Home;

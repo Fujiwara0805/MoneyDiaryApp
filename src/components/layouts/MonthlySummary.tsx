@@ -12,7 +12,7 @@ interface MonthlySummaryProps {
 
 const MonthlySummary = ({ monthlyTransactions }: MonthlySummaryProps) => {
   const monthlyTotal = calculateBalance(monthlyTransactions);
-  console.log(monthlyTotal);
+  const { income, expense, balance } = monthlyTotal;
 
   return (
     <Grid container spacing={{ xs: 1, sm: 2 }} mb={2} className=" px-2">
@@ -28,8 +28,8 @@ const MonthlySummary = ({ monthlyTransactions }: MonthlySummaryProps) => {
         >
           <CardContent sx={{ padding: { xs: 1, sm: 2 } }}>
             <Stack direction={"row"}>
-              <ArrowUpwardIcon sx={{ fontSize: "2rem" }} />
-              <Typography>収入</Typography>
+              <ArrowDownwardIcon sx={{ fontSize: "2rem" }} />
+              <Typography>支出</Typography>
             </Stack>
             <Typography
               textAlign={"right"}
@@ -40,12 +40,11 @@ const MonthlySummary = ({ monthlyTransactions }: MonthlySummaryProps) => {
                 fontSize: { xs: ".8rem", sm: ".1rem", md: "1.2rem" },
               }}
             >
-              ¥300
+              ¥{income}
             </Typography>
           </CardContent>
         </Card>
       </Grid>
-
       {/* 支出 */}
       <Grid item xs={4} display={"flex"} flexDirection={"column"}>
         <Card
@@ -70,12 +69,11 @@ const MonthlySummary = ({ monthlyTransactions }: MonthlySummaryProps) => {
                 fontSize: { xs: ".8rem", sm: ".1rem", md: "1.2rem" },
               }}
             >
-              ¥300
+              ¥{expense}
             </Typography>
           </CardContent>
         </Card>
       </Grid>
-
       {/* 残高 */}
       <Grid item xs={4} display={"flex"} flexDirection={"column"}>
         <Card
@@ -100,7 +98,7 @@ const MonthlySummary = ({ monthlyTransactions }: MonthlySummaryProps) => {
                 fontSize: { xs: ".8rem", sm: ".1rem", md: "1.2rem" },
               }}
             >
-              ¥300
+              ¥{balance}
             </Typography>
           </CardContent>
         </Card>

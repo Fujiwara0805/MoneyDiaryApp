@@ -1,7 +1,14 @@
 import React from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import jaLocale from "@fullcalendar/core/locales/ja";
 
-const Calendar = () => {
-  return <div>Calendar</div>;
+export const Calendar = () => {
+  return (
+    <FullCalendar
+      plugins={[dayGridPlugin]}
+      initialView="dayGridMonth"
+      locale={jaLocale}
+    />
+  );
 };
-
-export default Calendar;

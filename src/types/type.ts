@@ -16,3 +16,9 @@ export interface Transaction {
   category: INCOME_CATEGORY | EXPENSE_CATEGORY;
   content: string;
 }
+
+export interface Balance {
+  income: number;
+  expense: number;
+  balance: number;
+}

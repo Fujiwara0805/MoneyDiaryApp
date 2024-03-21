@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import AppLayout from "@/components/layouts/AppLayout";
 import MonthlySummary from "@/components/layouts/MonthlySummary";
-import Calendar from "@/components/layouts/Calendar";
+import { Calendar } from "@/components/layouts/Calendar";
 import TransactionMenu from "@/components/layouts/TransactionMenu";
 import TransactionForm from "@/components/layouts/TransactionForm";
 import { Transaction } from "@/types/type";
@@ -16,7 +16,7 @@ const Home = ({ monthlyTransactions }: HomeProps) => {
       <AppLayout />
       <Box className="flex ">
         {/*左側コンテンツ*/}
-        <Box className=" flex-grow text-center ">
+        <Box className=" flex-grow text-center mx-4">
           <MonthlySummary monthlyTransactions={monthlyTransactions} />
           <Calendar />
         </Box>

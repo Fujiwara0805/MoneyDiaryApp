@@ -22,3 +22,10 @@ export interface Balance {
   expense: number;
   balance: number;
 }
+
+export interface CalendarContent {
+  start: string;
+  income: string; //1,700の様に表示するためにstring型で型定義
+  expense: string;
+  balance: string;
+}

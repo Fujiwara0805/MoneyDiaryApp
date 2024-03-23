@@ -38,7 +38,7 @@ export default function App() {
   return (
     <main className=" bg-slate-300 min-h-screen">
       <Home monthlyTransactions={MonthlyTransactions} />
-      <Report />
+      {/* <Report /> */}
     </main>
   );
 }

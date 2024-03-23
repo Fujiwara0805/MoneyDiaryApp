@@ -16,16 +16,16 @@ const Home = ({ monthlyTransactions }: HomeProps) => {
       <AppLayout />
       <Box className="flex ">
         {/*左側コンテンツ*/}
-        <Box className=" flex-grow text-center mx-4">
+        <Box className=" flex-grow text-center mx-8 my-8">
           <MonthlySummary monthlyTransactions={monthlyTransactions} />
-          <Calendar />
+          <Calendar monthlyTransactions={monthlyTransactions} />
         </Box>
 
         {/*右側コンテンツ*/}
-        <Box>
+        {/* <Box>
           <TransactionMenu />
           <TransactionForm />
-        </Box>
+        </Box> */}
       </Box>
     </main>
   );

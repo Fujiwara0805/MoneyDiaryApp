@@ -1,30 +1,23 @@
-import React from "react";
+import { Dispatch, SetStateAction } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import jaLocale from "@fullcalendar/core/locales/ja";
 import "@/components/layouts/calendar.css";
-import { EventContentArg } from "@fullcalendar/core";
+import { DatesSetArg, EventContentArg } from "@fullcalendar/core";
 import { Balance, CalendarContent, Transaction } from "@/types/type";
 import { calculateDailyBalance } from "@/utils/calculateBalance";
+import { formatCurrency } from "@/utils/formatting";
 
 interface CalendarProps {
   monthlyTransactions: Transaction[];
+  setCurrentMonth: Dispatch<SetStateAction<Date>>;
 }
 
-export const Calendar = ({ monthlyTransactions }: CalendarProps) => {
+export const Calendar = ({
+  monthlyTransactions,
+  setCurrentMonth,
+}: CalendarProps) => {
   const dailyBalance = calculateDailyBalance(monthlyTransactions);
-  // console.log(dailyBalance);
-
-  //イベント情報配列
-  const events = [
-    {
-      title: "Meeting",
-      date: "2024-03-21",
-      income: 300,
-      expense: 200,
-      balance: 100,
-    },
-  ];
 
   //dailyBalance内のデータを整形
   const createCalendarEvent = (
@@ -34,13 +27,13 @@ export const Calendar = ({ monthlyTransactions }: CalendarProps) => {
       const { income, expense, balance } = dailyBalance[date];
       return {
         start: date,
-        income: income,
-        expense: expense,
-        balance: balance,
+        income: formatCurrency(income),
+        expense: formatCurrency(expense),
+        balance: formatCurrency(balance),
       };
     });
   };
-  // console.log(createCalendarEvent(dailyBalance));
+  const currentEvents = createCalendarEvent(dailyBalance);
 
   //カレンダーへ収支を反映(jsx)
   const renderEventContent = (eventInfo: EventContentArg) => {
@@ -64,13 +57,20 @@ export const Calendar = ({ monthlyTransactions }: CalendarProps) => {
     );
   };
 
+  //どの月のデータでも取得できる様に修正
+  const handleDateSet = (dateSet: DatesSetArg) => {
+    // console.log(dateSet);
+    setCurrentMonth(dateSet.view.currentStart);
+  };
+
   return (
     <FullCalendar
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
       locale={jaLocale}
-      events={events}
+      events={currentEvents}
       eventContent={renderEventContent}
+      datesSet={handleDateSet}
     />
   );
 };

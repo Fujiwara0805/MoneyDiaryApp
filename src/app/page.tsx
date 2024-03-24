@@ -4,14 +4,14 @@ import { Transaction } from "@/types/type";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/db/firebase";
 import Home from "./home/page";
-import Report from "./report/page";
+// import Report from "./report/page";
 import { formatMonth } from "@/utils/formatting";
 
 export default function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  /* firebaseからデータ抽出 */
+  /* firebaseから全データ抽出 */
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -37,7 +37,10 @@ export default function App() {
 
   return (
     <main className=" bg-slate-300 min-h-screen">
-      <Home monthlyTransactions={MonthlyTransactions} />
+      <Home
+        monthlyTransactions={MonthlyTransactions}
+        setCurrentMonth={setCurrentMonth}
+      />
       {/* <Report /> */}
     </main>
   );

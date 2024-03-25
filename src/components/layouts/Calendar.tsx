@@ -59,7 +59,6 @@ export const Calendar = ({
 
   //どの月のデータでも取得できる様に修正
   const handleDateSet = (dateSet: DatesSetArg) => {
-    // console.log(dateSet);
     setCurrentMonth(dateSet.view.currentStart);
   };
 

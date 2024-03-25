@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import AppLayout from "@/components/layouts/AppLayout";
 import MonthlySummary from "@/components/layouts/MonthlySummary";
 import { Calendar } from "@/components/layouts/Calendar";
-// import TransactionMenu from "@/components/layouts/TransactionMenu";
+import TransactionMenu from "@/components/layouts/TransactionMenu";
 // import TransactionForm from "@/components/layouts/TransactionForm";
 import { Transaction } from "@/types/type";
 import { Dispatch, SetStateAction } from "react";
@@ -27,10 +27,10 @@ const Home = ({ monthlyTransactions, setCurrentMonth }: HomeProps) => {
         </Box>
 
         {/*右側コンテンツ*/}
-        {/* <Box>
+        <Box>
           <TransactionMenu />
-          <TransactionForm />
-        </Box> */}
+          {/* <TransactionForm /> */}
+        </Box>
       </Box>
     </main>
   );

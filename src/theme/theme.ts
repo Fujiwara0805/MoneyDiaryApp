@@ -1,5 +1,6 @@
-import { PaletteColor, PaletteColorOptions, createTheme } from "@mui/material";
+import { PaletteColor, PaletteColorOptions } from "@mui/material";
 import { blue, green, red } from "@mui/material/colors";
+import { createTheme } from "@mui/material/styles";
 
 /* 型定義 */
 declare module "@mui/material/styles" {

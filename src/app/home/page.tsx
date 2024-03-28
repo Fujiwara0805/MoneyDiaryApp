@@ -3,7 +3,7 @@ import AppLayout from "@/components/layouts/AppLayout";
 import MonthlySummary from "@/components/layouts/MonthlySummary";
 import { Calendar } from "@/components/layouts/Calendar";
 import TransactionMenu from "@/components/layouts/TransactionMenu";
-// import TransactionForm from "@/components/layouts/TransactionForm";
+import TransactionForm from "@/components/layouts/TransactionForm";
 import { Transaction } from "@/types/type";
 import { Dispatch, SetStateAction, useState } from "react";
 import { format } from "date-fns";
@@ -16,11 +16,16 @@ interface HomeProps {
 const Home = ({ monthlyTransactions, setCurrentMonth }: HomeProps) => {
   const today = format(new Date(), "yyyy-MM-dd");
   const [currentDay, setCurrentDay] = useState(today);
+  const [isTransactionInput, setIsTransactionInput] = useState(true);
 
   /*選択した日付の取引履歴を取得*/
   const dailyTransactions = monthlyTransactions.filter((transaction) => {
     return transaction.date === currentDay;
   });
+  /*取引入力欄の開閉処理*/
+  const onClickDrawerToggle = () => {
+    setIsTransactionInput(!isTransactionInput);
+  };
 
   return (
     <main className=" bg-slate-300 min-h-screen">
@@ -33,6 +38,8 @@ const Home = ({ monthlyTransactions, setCurrentMonth }: HomeProps) => {
             monthlyTransactions={monthlyTransactions}
             setCurrentMonth={setCurrentMonth}
             setCurrentDay={setCurrentDay}
+            currentDay={currentDay}
+            today={today}
           />
         </Box>
 
@@ -41,8 +48,12 @@ const Home = ({ monthlyTransactions, setCurrentMonth }: HomeProps) => {
           <TransactionMenu
             dailyTransactions={dailyTransactions}
             currentDay={currentDay}
+            onClickDrawerToggle={onClickDrawerToggle}
           />
-          {/* <TransactionForm /> */}
+          <TransactionForm
+            onClickDrawerToggle={onClickDrawerToggle}
+            isTransactionInput={isTransactionInput}
+          />
         </Box>
       </Box>
     </main>

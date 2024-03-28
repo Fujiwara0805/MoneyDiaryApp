@@ -8,17 +8,22 @@ import { Balance, CalendarContent, Transaction } from "@/types/type";
 import { calculateDailyBalance } from "@/utils/calculateBalance";
 import { formatCurrency } from "@/utils/formatting";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
+import { isSameMonth } from "date-fns";
 
 interface CalendarProps {
   monthlyTransactions: Transaction[];
   setCurrentMonth: Dispatch<SetStateAction<Date>>;
   setCurrentDay: Dispatch<SetStateAction<string>>;
+  currentDay: string;
+  today: string;
 }
 
 export const Calendar = ({
   monthlyTransactions,
   setCurrentMonth,
   setCurrentDay,
+  currentDay,
+  today,
 }: CalendarProps) => {
   const dailyBalance = calculateDailyBalance(monthlyTransactions);
 
@@ -37,6 +42,11 @@ export const Calendar = ({
     });
   };
   const currentEvents = createCalendarEvent(dailyBalance);
+  const backGroundEvents = {
+    start: currentDay,
+    display: "background",
+    backgroundColor: "#a7f3d0",
+  };
 
   //カレンダーへ収支を反映(jsx)
   const renderEventContent = (eventInfo: EventContentArg) => {
@@ -62,7 +72,12 @@ export const Calendar = ({
 
   //どの月のデータでも取得できる様に修正
   const handleDateSet = (dateSet: DatesSetArg) => {
-    setCurrentMonth(dateSet.view.currentStart);
+    const currentMonth = dateSet.view.currentStart;
+    setCurrentMonth(currentMonth);
+    const todayDate = new Date();
+    if (isSameMonth(todayDate, currentMonth)) {
+      setCurrentDay(today);
+    }
   };
   //選択した日付の取引データを取得
   const handleDateClick = (dateInfo: DateClickArg) => {
@@ -74,7 +89,7 @@ export const Calendar = ({
       plugins={[dayGridPlugin, interactionPlugin]}
       initialView="dayGridMonth"
       locale={jaLocale}
-      events={currentEvents}
+      events={[...currentEvents, backGroundEvents]}
       eventContent={renderEventContent}
       datesSet={handleDateSet}
       dateClick={handleDateClick}

@@ -12,7 +12,6 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { theme } from "@/theme/theme";
 
 //アイコン
 import NotesIcon from "@mui/icons-material/Notes";
@@ -25,11 +24,13 @@ import { IconComponents } from "../common/IconComponents";
 interface DailyTransactionProps {
   dailyTransactions: Transaction[];
   currentDay: string;
+  onClickDrawerToggle: () => void;
 }
 
 const TransactionMenu = ({
   dailyTransactions,
   currentDay,
+  onClickDrawerToggle,
 }: DailyTransactionProps) => {
   const menuDrawerWidth = 320;
   return (
@@ -67,7 +68,11 @@ const TransactionMenu = ({
             <Typography variant="body1">内訳</Typography>
           </Box>
           {/* 右側の追加ボタン */}
-          <Button startIcon={<AddCircleIcon />} color="primary">
+          <Button
+            startIcon={<AddCircleIcon />}
+            color="primary"
+            onClick={onClickDrawerToggle}
+          >
             内訳を追加
           </Button>
         </Box>

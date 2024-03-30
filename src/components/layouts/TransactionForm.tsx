@@ -18,14 +18,33 @@ import { Controller, useForm } from "react-hook-form";
 interface TransactionFormProps {
   onClickDrawerToggle: () => void;
   isTransactionInput: boolean;
+  currentDay: string;
 }
+
+type trackIncome = "income" | "expense";
 
 const TransactionForm = ({
   onClickDrawerToggle,
   isTransactionInput,
+  currentDay,
 }: TransactionFormProps) => {
   const formWidth = 320;
-  const { control } = useForm();
+  const { control, setValue, watch } = useForm({
+    defaultValues: {
+      type: "expense",
+      date: currentDay,
+      amount: "",
+      category: "",
+      content: "",
+    },
+  });
+
+  const currentType = watch("type");
+  console.log(currentType);
+  /* 支出・収入ボタンの切替 */
+  const typeToggle = (type: trackIncome) => {
+    setValue("type", type);
+  };
   return (
     <Box
       sx={{
@@ -68,10 +87,24 @@ const TransactionForm = ({
             control={control}
             render={({ field }) => (
               <ButtonGroup fullWidth>
-                <Button variant={"contained"} color="error">
+                <Button
+                  variant={field.value === "expense" ? "contained" : "outlined"}
+                  color="error"
+                  onClick={() => {
+                    typeToggle("expense");
+                  }}
+                >
                   支出
                 </Button>
-                <Button>収入</Button>
+                <Button
+                  variant={field.value === "income" ? "contained" : "outlined"}
+                  color={"primary"}
+                  onClick={() => {
+                    typeToggle("income");
+                  }}
+                >
+                  収入
+                </Button>
               </ButtonGroup>
             )}
           />
@@ -81,6 +114,7 @@ const TransactionForm = ({
             control={control}
             render={({ field }) => (
               <TextField
+                {...field}
                 label="日付"
                 type="date"
                 InputLabelProps={{
@@ -94,7 +128,7 @@ const TransactionForm = ({
             name="category"
             control={control}
             render={({ field }) => (
-              <TextField id="カテゴリ" label="カテゴリ" select value={"食費"}>
+              <TextField {...field} id="カテゴリ" label="カテゴリ" select>
                 <MenuItem value={"食費"}>
                   <ListItemIcon>
                     <FastfoodIcon />
@@ -108,13 +142,17 @@ const TransactionForm = ({
           <Controller
             name="amount"
             control={control}
-            render={({ field }) => <TextField label="金額" type="number" />}
+            render={({ field }) => (
+              <TextField {...field} label="金額" type="number" />
+            )}
           />
           {/* 内容 */}
           <Controller
             name="content"
             control={control}
-            render={({ field }) => <TextField label="内容" type="text" />}
+            render={({ field }) => (
+              <TextField {...field} label="内容" type="text" />
+            )}
           />
           {/* 保存ボタン */}
           <Button type="submit" variant="contained" color="primary" fullWidth>

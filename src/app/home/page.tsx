@@ -53,6 +53,7 @@ const Home = ({ monthlyTransactions, setCurrentMonth }: HomeProps) => {
           <TransactionForm
             onClickDrawerToggle={onClickDrawerToggle}
             isTransactionInput={isTransactionInput}
+            currentDay={currentDay}
           />
         </Box>
       </Box>

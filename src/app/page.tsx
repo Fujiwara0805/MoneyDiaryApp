@@ -1,4 +1,6 @@
 "use client";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "@/theme/theme";
 import { useEffect, useState } from "react";
 import { Transaction } from "@/types/type";
 import { collection, getDocs } from "firebase/firestore";
@@ -36,12 +38,14 @@ export default function App() {
   });
 
   return (
-    <main className=" bg-slate-300 min-h-screen">
-      <Home
-        monthlyTransactions={MonthlyTransactions}
-        setCurrentMonth={setCurrentMonth}
-      />
-      {/* <Report /> */}
-    </main>
+    <ThemeProvider theme={theme}>
+      <main className=" bg-slate-300 min-h-screen">
+        <Home
+          monthlyTransactions={MonthlyTransactions}
+          setCurrentMonth={setCurrentMonth}
+        />
+        {/* <Report /> */}
+      </main>
+    </ThemeProvider>
   );
 }

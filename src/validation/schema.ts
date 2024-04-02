@@ -9,8 +9,17 @@ export const TransactionSchema = z.object({
     .max(50, { message: "内容は50文字以内で入力してください" }),
   category: z
     .union([
-      z.enum(["食費", "日用品", "住居費", "交際費", "娯楽", "交通費"]),
-      z.enum(["給料", "副収入", "お小遣い"]),
+      z.enum([
+        "食費",
+        "日用品",
+        "住居費",
+        "交際費",
+        "娯楽",
+        "交通費",
+        "給料",
+        "副収入",
+        "お小遣い",
+      ]),
       z.literal(""),
     ])
     .refine((value) => value !== "", { message: "カテゴリを選択してください" }),

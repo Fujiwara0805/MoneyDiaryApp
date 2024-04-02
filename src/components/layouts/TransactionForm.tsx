@@ -20,10 +20,10 @@ import TrainIcon from "@mui/icons-material/Train";
 import WorkIcon from "@mui/icons-material/Work";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import SavingsIcon from "@mui/icons-material/Savings";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { EXPENSE_CATEGORY, INCOME_CATEGORY } from "@/types/type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TransactionSchema } from "@/validation/schema";
+import { Schema, TransactionSchema } from "@/validation/schema";
 
 /* 型定義 */
 interface TransactionFormProps {
@@ -65,11 +65,11 @@ const TransactionForm = ({
     watch,
     formState: { errors },
     handleSubmit,
-  } = useForm({
+  } = useForm<Schema>({
     defaultValues: {
       type: "expense",
       date: currentDay,
-      amount: "",
+      amount: 0,
       category: "",
       content: "",
     },
@@ -93,7 +93,7 @@ const TransactionForm = ({
     setValue("type", type);
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<Schema> = (data) => {
     console.log(data);
   };
 

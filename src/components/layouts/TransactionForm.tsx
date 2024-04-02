@@ -30,6 +30,7 @@ interface TransactionFormProps {
   onClickDrawerToggle: () => void;
   isTransactionInput: boolean;
   currentDay: string;
+  onSaveTransaction: (transaction: Schema) => Promise<void>;
 }
 type trackIncome = "income" | "expense";
 type CategoryItem = {
@@ -41,6 +42,7 @@ const TransactionForm = ({
   onClickDrawerToggle,
   isTransactionInput,
   currentDay,
+  onSaveTransaction,
 }: TransactionFormProps) => {
   const formWidth = 320;
   /* 支出用アイテム */
@@ -75,13 +77,14 @@ const TransactionForm = ({
     },
     resolver: zodResolver(TransactionSchema),
   });
-  console.log(errors);
   const currentType = watch("type");
 
+  /* 選択された日付に変更する処理 */
   useEffect(() => {
     setValue("date", currentDay);
   }, [currentDay]);
 
+  /* カテゴリの変更処理 */
   useEffect(() => {
     const newCategories =
       currentType === "expense" ? expenseCategories : incomeCategories;
@@ -93,8 +96,9 @@ const TransactionForm = ({
     setValue("type", type);
   };
 
+  /* 送信処理 */
   const onSubmit: SubmitHandler<Schema> = (data) => {
-    console.log(data);
+    onSaveTransaction(data);
   };
 
   return (
@@ -138,41 +142,37 @@ const TransactionForm = ({
             name="type"
             control={control}
             render={({ field }) => (
-              <ButtonGroup fullWidth>
-                <Button
-                  variant={field.value === "expense" ? "contained" : "outlined"}
-                  color="error"
-                  sx={{
-                    "&:focus": {
-                      backgroundColor: (theme) => theme.palette.error.main,
-                    },
-                    "&:active": {
-                      backgroundColor: (theme) => theme.palette.error.main,
-                    },
-                  }}
+              <div className="flex w-full grid-cols-4 gap-4">
+                <button
+                  type="button"
+                  className={`flex-1 ${
+                    field.value === "expense"
+                      ? "bg-red-500 text-white"
+                      : "bg-white text-red-500 border border-red-500"
+                  } focus:bg-red-700 focus:text-white px-4 py-2 text-lg rounded-lg`}
                   onClick={() => {
                     typeToggle("expense");
                   }}
                 >
                   支出
-                </Button>
-                <Button
-                  variant={field.value === "income" ? "contained" : "outlined"}
-                  color={"primary"}
+                </button>
+                <button
+                  type="button"
+                  className={`flex-1 ${
+                    field.value === "income"
+                      ? "bg-blue-500 text-white"
+                      : "bg-white text-blue-500 border border-blue-500"
+                  } focus:bg-blue-700 focus:text-white px-4 py-2 text-lg rounded-lg`}
                   onClick={() => {
                     typeToggle("income");
                   }}
-                  sx={{
-                    "&:focus": {
-                      backgroundColor: (theme) => theme.palette.primary.main,
-                    },
-                  }}
                 >
                   収入
-                </Button>
-              </ButtonGroup>
+                </button>
+              </div>
             )}
           />
+
           {/* 日付 */}
           <Controller
             name="date"
@@ -219,7 +219,7 @@ const TransactionForm = ({
             render={({ field }) => (
               <TextField
                 {...field}
-                value={parseInt(field.value) === 0 ? "" : field.value}
+                value={field.value === 0 ? "" : field.value}
                 onChange={(e) => {
                   const newValue = parseInt(e.target.value, 10) || 0;
                   field.onChange(newValue);
@@ -246,23 +246,18 @@ const TransactionForm = ({
             )}
           />
           {/* 保存ボタン */}
-          <Button
+          <button
             type="submit"
-            variant="contained"
-            color={currentType === "income" ? "primary" : "error"}
-            fullWidth
-            sx={{
-              backgroundColor: (theme) => theme.palette.error.main,
-              "&:focus": {
-                backgroundColor: (theme) =>
-                  currentType === "income"
-                    ? theme.palette.primary.main
-                    : theme.palette.error.main,
-              },
-            }}
+            className={`${
+              currentType === "income"
+                ? "bg-blue-500 text-white"
+                : "bg-red-500 text-white"
+            } w-full focus:bg-${
+              currentType === "income" ? "blue-700" : "red-700"
+            } focus:text-white px-4 py-2 text-lg rounded-lg`}
           >
             保存
-          </Button>
+          </button>
         </Stack>
       </Box>
     </Box>

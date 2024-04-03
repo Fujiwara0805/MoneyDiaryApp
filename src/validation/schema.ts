@@ -16,7 +16,7 @@ export const TransactionSchema = z.object({
         "交際費",
         "娯楽",
         "交通費",
-        "給料",
+        "給与",
         "副収入",
         "お小遣い",
       ]),

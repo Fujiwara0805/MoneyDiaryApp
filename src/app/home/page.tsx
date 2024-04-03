@@ -32,6 +32,11 @@ const Home = ({
   const onClickDrawerToggle = () => {
     setIsTransactionInput(!isTransactionInput);
   };
+  /*取引情報の選択*/
+  const onSelectTransaction = (transaction: Transaction) => {
+    console.log(transaction);
+    setIsTransactionInput(false);
+  };
 
   return (
     <main className=" bg-slate-300 min-h-screen">
@@ -55,6 +60,7 @@ const Home = ({
             dailyTransactions={dailyTransactions}
             currentDay={currentDay}
             onClickDrawerToggle={onClickDrawerToggle}
+            onSelectTransaction={onSelectTransaction}
           />
           <TransactionForm
             onClickDrawerToggle={onClickDrawerToggle}

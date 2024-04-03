@@ -25,12 +25,14 @@ interface DailyTransactionProps {
   dailyTransactions: Transaction[];
   currentDay: string;
   onClickDrawerToggle: () => void;
+  onSelectTransaction: (transaction: Transaction) => void;
 }
 
 const TransactionMenu = ({
   dailyTransactions,
   currentDay,
   onClickDrawerToggle,
+  onSelectTransaction,
 }: DailyTransactionProps) => {
   const menuDrawerWidth = 320;
   return (
@@ -82,7 +84,12 @@ const TransactionMenu = ({
             <Stack spacing={2}>
               {dailyTransactions.map((transaction) => (
                 <React.Fragment key={transaction.id}>
-                  <ListItem disablePadding>
+                  <ListItem
+                    disablePadding
+                    onClick={() => {
+                      onSelectTransaction(transaction);
+                    }}
+                  >
                     <Card
                       sx={{
                         width: "100%",

@@ -67,6 +67,7 @@ const TransactionForm = ({
     watch,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<Schema>({
     defaultValues: {
       type: "expense",
@@ -94,11 +95,21 @@ const TransactionForm = ({
   /* 支出・収入ボタンの切替 */
   const typeToggle = (type: trackIncome) => {
     setValue("type", type);
+    setValue("category", "");
+    setValue("amount", 0);
+    setValue("content", "");
   };
 
   /* 送信処理 */
   const onSubmit: SubmitHandler<Schema> = (data) => {
     onSaveTransaction(data);
+    reset({
+      type: "expense",
+      date: currentDay,
+      amount: 0,
+      category: "",
+      content: "",
+    });
   };
 
   return (

@@ -21,7 +21,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import SavingsIcon from "@mui/icons-material/Savings";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { EXPENSE_CATEGORY, INCOME_CATEGORY } from "@/types/type";
+import { EXPENSE_CATEGORY, INCOME_CATEGORY, Transaction } from "@/types/type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Schema, TransactionSchema } from "@/validation/schema";
 
@@ -60,6 +60,7 @@ const TransactionForm = ({
     { label: "副収入", icon: <AddBusinessIcon fontSize="small" /> },
     { label: "お小遣い", icon: <SavingsIcon fontSize="small" /> },
   ];
+
   const [categories, setCategories] = useState(expenseCategories);
   const {
     control,

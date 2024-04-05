@@ -13,6 +13,8 @@ import { Schema } from "@/validation/schema";
 export default function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
 
   /* firebaseから全データ抽出 */
   useEffect(() => {
@@ -63,6 +65,8 @@ export default function App() {
           monthlyTransactions={MonthlyTransactions}
           setCurrentMonth={setCurrentMonth}
           onSaveTransaction={handleSaveTransaction}
+          selectedTransaction={selectedTransaction}
+          setSelectedTransaction={setSelectedTransaction}
         />
         {/* <Report /> */}
       </main>

@@ -13,12 +13,16 @@ interface HomeProps {
   monthlyTransactions: Transaction[];
   setCurrentMonth: Dispatch<SetStateAction<Date>>;
   onSaveTransaction: (transaction: Schema) => Promise<void>;
+  selectedTransaction: Transaction | null;
+  setSelectedTransaction: Dispatch<SetStateAction<Transaction | null>>;
 }
 
 const Home = ({
   monthlyTransactions,
   setCurrentMonth,
   onSaveTransaction,
+  selectedTransaction,
+  setSelectedTransaction,
 }: HomeProps) => {
   const today = format(new Date(), "yyyy-MM-dd");
   const [currentDay, setCurrentDay] = useState(today);
@@ -34,8 +38,9 @@ const Home = ({
   };
   /*取引情報の選択*/
   const onSelectTransaction = (transaction: Transaction) => {
-    console.log(transaction);
     setIsTransactionInput(false);
+    setSelectedTransaction(transaction);
+    // console.log(transaction);
   };
 
   return (

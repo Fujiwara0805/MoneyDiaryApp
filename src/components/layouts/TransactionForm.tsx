@@ -31,6 +31,7 @@ interface TransactionFormProps {
   isTransactionInput: boolean;
   currentDay: string;
   onSaveTransaction: (transaction: Schema) => Promise<void>;
+  selectedTransaction: Transaction | null;
 }
 type trackIncome = "income" | "expense";
 type CategoryItem = {
@@ -43,6 +44,7 @@ const TransactionForm = ({
   isTransactionInput,
   currentDay,
   onSaveTransaction,
+  selectedTransaction,
 }: TransactionFormProps) => {
   const formWidth = 320;
   /* 支出用アイテム */
@@ -101,7 +103,7 @@ const TransactionForm = ({
     setValue("content", "");
   };
 
-  /* 送信処理 */
+  /* 送信処理(保存・登録) */
   const onSubmit: SubmitHandler<Schema> = (data) => {
     onSaveTransaction(data);
     reset({
@@ -112,6 +114,27 @@ const TransactionForm = ({
       content: "",
     });
   };
+
+  /* 削除処理 */
+
+  /* 選択された取引データをフォームに表示 */
+  useEffect(() => {
+    if (selectedTransaction) {
+      setValue("type", selectedTransaction.type);
+      setValue("amount", selectedTransaction.amount);
+      setValue("category", selectedTransaction.category);
+      setValue("content", selectedTransaction.content);
+      setValue("date", selectedTransaction.date);
+    } else {
+      reset({
+        type: "expense",
+        date: currentDay,
+        amount: 0,
+        category: "",
+        content: "",
+      });
+    }
+  }, [selectedTransaction]);
 
   return (
     <Box
@@ -133,7 +156,7 @@ const TransactionForm = ({
         boxShadow: "0px 0px 15px -5px #777777",
       }}
     >
-      {/* 入力エリアヘッダー */}
+      {/* 入力エリアHeader */}
       <Box display={"flex"} justifyContent={"space-between"} mb={2}>
         <Typography variant="h6">入力</Typography>
         {/* 閉じるボタン */}
@@ -146,7 +169,7 @@ const TransactionForm = ({
           <CloseIcon />
         </IconButton>
       </Box>
-      {/* フォーム要素 */}
+      {/* Form要素 */}
       <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           {/* 収支切り替えボタン */}
@@ -270,6 +293,16 @@ const TransactionForm = ({
           >
             保存
           </button>
+          {selectedTransaction && (
+            <button
+              onClick={() => {
+                handleDelete(selectedTransaction.id);
+              }}
+              className=" bg-violet-300 text-white w-full focus:bg violet-700 focus:text-white px-4 py-2 text-lg rounded-lg"
+            >
+              削除
+            </button>
+          )}
         </Stack>
       </Box>
     </Box>

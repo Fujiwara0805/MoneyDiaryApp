@@ -32,15 +32,18 @@ const Home = ({
   const dailyTransactions = monthlyTransactions.filter((transaction) => {
     return transaction.date === currentDay;
   });
-  /*取引入力欄の開閉処理*/
+  /*取引入力欄の開閉処理(内訳ボタン押下時)*/
   const onClickDrawerToggle = () => {
-    setIsTransactionInput(!isTransactionInput);
+    if (selectedTransaction === null) {
+      setIsTransactionInput(!isTransactionInput);
+    }
+    setSelectedTransaction(null);
   };
   /*取引情報の選択*/
   const onSelectTransaction = (transaction: Transaction) => {
     setIsTransactionInput(false);
     setSelectedTransaction(transaction);
-    // console.log(transaction);
+    console.log(transaction);
   };
 
   return (
@@ -72,6 +75,7 @@ const Home = ({
             isTransactionInput={isTransactionInput}
             currentDay={currentDay}
             onSaveTransaction={onSaveTransaction}
+            selectedTransaction={selectedTransaction}
           />
         </Box>
       </Box>

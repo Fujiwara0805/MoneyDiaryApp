@@ -35,6 +35,7 @@ const TransactionMenu = ({
   onSelectTransaction,
 }: DailyTransactionProps) => {
   const menuDrawerWidth = 320;
+
   return (
     <Drawer
       sx={{

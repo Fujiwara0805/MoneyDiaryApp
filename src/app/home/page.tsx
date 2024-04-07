@@ -13,6 +13,11 @@ interface HomeProps {
   monthlyTransactions: Transaction[];
   setCurrentMonth: Dispatch<SetStateAction<Date>>;
   onSaveTransaction: (transaction: Schema) => Promise<void>;
+  onDeleteTransaction: (transactionId: string) => Promise<void>;
+  onUpdateTransaction: (
+    transaction: Schema,
+    transactionId: string
+  ) => Promise<void>;
   selectedTransaction: Transaction | null;
   setSelectedTransaction: Dispatch<SetStateAction<Transaction | null>>;
 }
@@ -21,6 +26,8 @@ const Home = ({
   monthlyTransactions,
   setCurrentMonth,
   onSaveTransaction,
+  onDeleteTransaction,
+  onUpdateTransaction,
   selectedTransaction,
   setSelectedTransaction,
 }: HomeProps) => {
@@ -34,8 +41,8 @@ const Home = ({
   });
   /*取引入力欄の開閉処理(内訳ボタン押下時)*/
   const onClickDrawerToggle = () => {
+    setIsTransactionInput(!isTransactionInput);
     if (selectedTransaction === null) {
-      setIsTransactionInput(!isTransactionInput);
     }
     setSelectedTransaction(null);
   };
@@ -43,7 +50,6 @@ const Home = ({
   const onSelectTransaction = (transaction: Transaction) => {
     setIsTransactionInput(false);
     setSelectedTransaction(transaction);
-    console.log(transaction);
   };
 
   return (
@@ -75,7 +81,10 @@ const Home = ({
             isTransactionInput={isTransactionInput}
             currentDay={currentDay}
             onSaveTransaction={onSaveTransaction}
+            onDeleteTransaction={onDeleteTransaction}
+            onUpdateTransaction={onUpdateTransaction}
             selectedTransaction={selectedTransaction}
+            setSelectedTransaction={setSelectedTransaction}
           />
         </Box>
       </Box>

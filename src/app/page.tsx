@@ -3,7 +3,14 @@ import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "@/theme/theme";
 import { useEffect, useState } from "react";
 import { Transaction } from "@/types/type";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "@/db/firebase";
 import Home from "./home/page";
 import Report from "./report/page";
@@ -33,7 +40,7 @@ export default function App() {
       }
     };
     fetchTransactions();
-  }, []);
+  }, [transactions]);
 
   /* 取引データをfirebaseへ保存 */
   const handleSaveTransaction = async (transaction: Schema) => {
@@ -53,6 +60,39 @@ export default function App() {
     }
   };
 
+  /* 選択した取引データの削除 */
+  const handleDeleteTransaction = async (transactionId: string) => {
+    try {
+      await deleteDoc(doc(db, "Transactions", transactionId));
+      setTransactions((prevTransactions) =>
+        prevTransactions.filter((transaction) => {
+          transaction.id !== transactionId;
+        })
+      );
+    } catch (error) {
+      console.log("データ削除に失敗しました");
+    }
+  };
+
+  /* 選択した取引データの更新 */
+  const handleUpdateTransaction = async (
+    transaction: Schema,
+    transactionId: string
+  ) => {
+    try {
+      const docRef = doc(db, "Transactions", transactionId);
+      await updateDoc(docRef, transaction);
+      const updateTransaction = transactions.map((prevTransaction) =>
+        prevTransaction.id === transactionId
+          ? { ...prevTransaction, ...transaction }
+          : prevTransaction
+      ) as Transaction[];
+      setTransactions(updateTransaction);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   /* 各月のデータを抽出 */
   const MonthlyTransactions = transactions.filter((transaction) => {
     return transaction.date.startsWith(formatMonth(currentMonth));
@@ -65,10 +105,12 @@ export default function App() {
           monthlyTransactions={MonthlyTransactions}
           setCurrentMonth={setCurrentMonth}
           onSaveTransaction={handleSaveTransaction}
+          onDeleteTransaction={handleDeleteTransaction}
+          onUpdateTransaction={handleUpdateTransaction}
           selectedTransaction={selectedTransaction}
           setSelectedTransaction={setSelectedTransaction}
         />
-        {/* <Report /> */}
+        <Report />
       </main>
     </ThemeProvider>
   );

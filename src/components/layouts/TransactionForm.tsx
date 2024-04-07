@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close"; // 閉じるボタン用のアイコン
 import FastfoodIcon from "@mui/icons-material/Fastfood"; //食事アイコン
 import AlarmIcon from "@mui/icons-material/Alarm";
@@ -31,7 +31,13 @@ interface TransactionFormProps {
   isTransactionInput: boolean;
   currentDay: string;
   onSaveTransaction: (transaction: Schema) => Promise<void>;
+  onDeleteTransaction: (transactionId: string) => Promise<void>;
+  onUpdateTransaction: (
+    transaction: Schema,
+    transactionId: string
+  ) => Promise<void>;
   selectedTransaction: Transaction | null;
+  setSelectedTransaction: Dispatch<SetStateAction<Transaction | null>>;
 }
 type trackIncome = "income" | "expense";
 type CategoryItem = {
@@ -44,7 +50,10 @@ const TransactionForm = ({
   isTransactionInput,
   currentDay,
   onSaveTransaction,
+  onDeleteTransaction,
+  onUpdateTransaction,
   selectedTransaction,
+  setSelectedTransaction,
 }: TransactionFormProps) => {
   const formWidth = 320;
   /* 支出用アイテム */
@@ -105,17 +114,33 @@ const TransactionForm = ({
 
   /* 送信処理(保存・登録) */
   const onSubmit: SubmitHandler<Schema> = (data) => {
-    onSaveTransaction(data);
-    reset({
-      type: "expense",
-      date: currentDay,
-      amount: 0,
-      category: "",
-      content: "",
-    });
+    if (selectedTransaction) {
+      onUpdateTransaction(data, selectedTransaction.id)
+        .then(() => {
+          setSelectedTransaction(null);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      onSaveTransaction(data)
+        .then(() => {
+          setSelectedTransaction(null);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   /* 削除処理 */
+  const handleDelete = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+    if (selectedTransaction) {
+      onDeleteTransaction(selectedTransaction.id);
+      setSelectedTransaction(null);
+    }
+  };
 
   /* 選択された取引データをフォームに表示 */
   useEffect(() => {
@@ -170,7 +195,7 @@ const TransactionForm = ({
         </IconButton>
       </Box>
       {/* Form要素 */}
-      <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
+      <Box component={"form"}>
         <Stack spacing={2}>
           {/* 収支切り替えボタン */}
           <Controller
@@ -283,6 +308,7 @@ const TransactionForm = ({
           {/* 保存ボタン */}
           <button
             type="submit"
+            onClick={handleSubmit(onSubmit)}
             className={`${
               currentType === "income"
                 ? "bg-blue-500 text-white"
@@ -291,13 +317,11 @@ const TransactionForm = ({
               currentType === "income" ? "blue-700" : "red-700"
             } focus:text-white px-4 py-2 text-lg rounded-lg`}
           >
-            保存
+            {selectedTransaction !== null ? "更新" : "保存"}
           </button>
           {selectedTransaction && (
             <button
-              onClick={() => {
-                handleDelete(selectedTransaction.id);
-              }}
+              onClick={handleDelete}
               className=" bg-violet-300 text-white w-full focus:bg violet-700 focus:text-white px-4 py-2 text-lg rounded-lg"
             >
               削除

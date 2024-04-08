@@ -1,10 +1,13 @@
 import AppLayout from "@/components/layouts/AppLayout";
 import React from "react";
 
-const Report = () => {
+interface ReportProps {
+  swichView: (view: string) => void;
+}
+const Report = ({ swichView }: ReportProps) => {
   return (
     <main className=" bg-slate-300 min-h-screen">
-      <AppLayout />
+      <AppLayout swichView={swichView} />
       <div className=" text-center justify-center mr-8">
         <h1>REPORT</h1>
       </div>

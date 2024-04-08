@@ -17,6 +17,7 @@ interface SideBarProps {
   mobileOpen: boolean;
   handleDrawerClose: () => void;
   handleDrawerTransitionEnd: () => void;
+  switchView: (view: string) => void;
 }
 
 interface MenuItem {
@@ -30,6 +31,7 @@ export const SideBar = ({
   mobileOpen,
   handleDrawerClose,
   handleDrawerTransitionEnd,
+  switchView,
 }: SideBarProps) => {
   const router = useRouter();
 
@@ -56,6 +58,11 @@ export const SideBar = ({
             <ListItemButton
               onClick={() => {
                 router.push(item.path);
+                if (item.theme === "HOME") {
+                  switchView("home");
+                } else {
+                  switchView("report");
+                }
               }}
             >
               <ListItemIcon>

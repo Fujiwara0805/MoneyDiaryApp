@@ -11,7 +11,10 @@ import { SideBar } from "../common/SideBar";
 
 const drawerWidth = 240;
 
-export default function AppLayout() {
+interface AppLayoutProps {
+  switchView:(view: string) => void
+}
+export default function AppLayout({ switchView }: AppLayoutProps) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -60,6 +63,7 @@ export default function AppLayout() {
         mobileOpen={mobileOpen}
         handleDrawerClose={handleDrawerClose}
         handleDrawerTransitionEnd={handleDrawerTransitionEnd}
+        switchView={switchView}
       />
       {/* MainContent */}
       <Box

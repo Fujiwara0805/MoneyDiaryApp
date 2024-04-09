@@ -20,7 +20,7 @@ interface HomeProps {
   ) => Promise<void>;
   selectedTransaction: Transaction | null;
   setSelectedTransaction: Dispatch<SetStateAction<Transaction | null>>;
-  swichView: (view: string) => void;
+  switchView: (view: string) => void;
 }
 
 const Home = ({
@@ -31,7 +31,7 @@ const Home = ({
   onUpdateTransaction,
   selectedTransaction,
   setSelectedTransaction,
-  swichView,
+  switchView,
 }: HomeProps) => {
   const today = format(new Date(), "yyyy-MM-dd");
   const [currentDay, setCurrentDay] = useState(today);
@@ -56,7 +56,7 @@ const Home = ({
 
   return (
     <main className=" bg-slate-300 min-h-screen">
-      <AppLayout switchView={swichView}/>
+      <AppLayout switchView={switchView} />
       <Box className="flex ">
         {/*左側コンテンツ*/}
         <Box className=" flex-grow text-center mx-8 my-8">

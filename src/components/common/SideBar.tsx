@@ -58,9 +58,7 @@ export const SideBar = ({
             <ListItemButton
               onClick={() => {
                 router.push(item.path);
-                if (item.theme === "HOME") {
-                  switchView("home");
-                } else {
+                if (item.theme !== "HOME") {
                   switchView("report");
                 }
               }}

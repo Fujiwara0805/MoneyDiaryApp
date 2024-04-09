@@ -22,10 +22,7 @@ export default function App() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
-  const [currentView, setCurrentView] = useState("Home");
-  const swichView = (view: string) => {
-    setCurrentView(view);
-  };
+  const [currentView, setCurrentView] = useState("home");
 
   /* firebaseから全データ抽出 */
   useEffect(() => {
@@ -97,6 +94,11 @@ export default function App() {
     }
   };
 
+  /* 画面の変更処理 */
+  const switchView = (view: string) => {
+    setCurrentView(view);
+  };
+
   /* 各月のデータを抽出 */
   const MonthlyTransactions = transactions.filter((transaction) => {
     return transaction.date.startsWith(formatMonth(currentMonth));
@@ -105,7 +107,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <main className=" bg-slate-300 min-h-screen">
-        {currentView === "Home" ? (
+        {currentView === "home" ? (
           <Home
             monthlyTransactions={MonthlyTransactions}
             setCurrentMonth={setCurrentMonth}
@@ -114,10 +116,10 @@ export default function App() {
             onUpdateTransaction={handleUpdateTransaction}
             selectedTransaction={selectedTransaction}
             setSelectedTransaction={setSelectedTransaction}
-            swichView={swichView}
+            switchView={switchView}
           />
         ) : (
-          <Report swichView={swichView} />
+          <Report switchView={switchView} />
         )}
       </main>
     </ThemeProvider>

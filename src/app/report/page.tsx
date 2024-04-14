@@ -4,13 +4,15 @@ import CategoryChat from "@/components/layouts/CategoryChat";
 import DateSelector from "@/components/layouts/DateSelector";
 import TransactionTable from "@/components/layouts/TransactionTable";
 import { Grid, Paper } from "@mui/material";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 interface ReportProps {
   switchView: (view: string) => void;
+  currentMonth: Date;
+  setCurrentMonth: Dispatch<SetStateAction<Date>>;
 }
 
-const Report = ({ switchView }: ReportProps) => {
+const Report = ({ switchView, currentMonth, setCurrentMonth }: ReportProps) => {
   const commonPaperStyle = {
     height: { xs: "auto", md: "400px" },
     display: "flex",
@@ -22,7 +24,10 @@ const Report = ({ switchView }: ReportProps) => {
       <div className=" mx-4 my-4">
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <DateSelector />
+            <DateSelector
+              currentMonth={currentMonth}
+              setCurrentMonth={setCurrentMonth}
+            />
           </Grid>
           <Grid item xs={12} md={4}>
             <Paper sx={commonPaperStyle}>

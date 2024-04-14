@@ -119,7 +119,11 @@ export default function App() {
             switchView={switchView}
           />
         ) : (
-          <Report switchView={switchView} />
+          <Report
+            switchView={switchView}
+            currentMonth={currentMonth}
+            setCurrentMonth={setCurrentMonth}
+          />
         )}
       </main>
     </ThemeProvider>

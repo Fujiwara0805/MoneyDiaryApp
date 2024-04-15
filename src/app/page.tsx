@@ -37,7 +37,7 @@ export default function App() {
         });
         setTransactions(transactionData);
       } catch (error) {
-        console.error("データベース接続に失敗しました");
+        console.error(error);
       }
     };
     fetchTransactions();

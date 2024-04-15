@@ -4,14 +4,16 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ja } from "date-fns/locale";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 interface DateSelectorProps {
   currentMonth: Date;
-  setCurrentMonth:
+  setCurrentMonth: Dispatch<SetStateAction<Date>>;
 }
 
-const DateSelector = ({ currentMonth, setCurrentMonth }) => {
+const handlePreviousMonth = () => {};
+
+const DateSelector = ({ currentMonth, setCurrentMonth }: DateSelectorProps) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
       <Box
@@ -21,7 +23,12 @@ const DateSelector = ({ currentMonth, setCurrentMonth }) => {
           alignContent: "center",
         }}
       >
-        <button className="bg-red-500 focus:bg-red-700 text-white px-4 py-2 text-lg rounded-lg mx-4">
+        <button
+          className="bg-red-500 focus:bg-red-700 text-white px-4 py-2 text-lg rounded-lg mx-4"
+          onChange={() => {
+            handlePreviousMonth;
+          }}
+        >
           先月
         </button>
         <DatePicker

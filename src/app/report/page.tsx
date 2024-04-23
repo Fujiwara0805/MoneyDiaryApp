@@ -4,7 +4,7 @@ import CategoryChat from "@/components/layouts/CategoryChat";
 import DateSelector from "@/components/layouts/DateSelector";
 import TransactionTable from "@/components/layouts/TransactionTable";
 import { Grid, Paper } from "@mui/material";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 
 interface ReportProps {
   switchView: (view: string) => void;
@@ -18,6 +18,7 @@ const Report = ({ switchView, currentMonth, setCurrentMonth }: ReportProps) => {
     display: "flex",
     flexDirection: "column",
   };
+
   return (
     <main className=" bg-slate-300 min-h-screen">
       <AppLayout switchView={switchView} />
